@@ -45,7 +45,11 @@ app.post("/api/notes", (req, res) => {
         fs.appendFile("./db/db.json", JSON.stringify(newNote), function (err) {
             if (err) throw err;
             console.log("Saved!");
+            notesArr.push(newNote);
         });
+
+        res.json(newNote);
+        const notesArr = [...data, newNote]
 
         console.log(response);
         res.status(201).json(response);
