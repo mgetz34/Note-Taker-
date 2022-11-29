@@ -21,18 +21,38 @@ app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 
+//http://localhost:3001/api/notes
+//accesses ds.db.json
 app.get("/api/notes", (req, res) => {
     res.json(data);
 })
 
 app.post("/api/notes", (req, res) => {
-    noteData = req.body;
-})
+    console.info(`${req.method} request received to add a note`);
+    const { title, text } = req.body;
+    if (title && text) {
+        const newNote = {
+            title,
+            text,
+            review_id: uuid(),
+        };
 
-// fs.appendFile(".db/db.json", JSON.stringify(noteData), function (err) {
-//     if (err) throw err;
-//     console.log("Saved!");
-// })
+        const response = {
+            status: 'success',
+            body: newNote,
+        };
+
+        console.log(response);
+        res.status(201).json(response);
+    } else {
+        res.status(500).json('Error in posting review');
+    }
+});
+
+fs.appendFile(".db/db.json", JSON.stringify(req.body), function (err) {
+    if (err) throw err;
+    console.log("Saved!");
+})
 
 app.listen(PORT, () =>
     console.log(`App listening at http://localhost:${PORT} 🚀`)
