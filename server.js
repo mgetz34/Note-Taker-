@@ -1,6 +1,6 @@
 const express = require('express');
 const fs = require('fs');
-// const uuid = require('./helpers/uuid')
+const uuid = require('./helpers/uuid');
 const data = require('./db/db.json');
 const path = require('path');
 const PORT = 3001;
@@ -42,18 +42,19 @@ app.post("/api/notes", (req, res) => {
             body: newNote,
         };
 
+        fs.appendFile("./db/db.json", JSON.stringify(newNote), function (err) {
+            if (err) throw err;
+            console.log("Saved!");
+        })
+        
         console.log(response);
         res.status(201).json(response);
     } else {
-        res.status(500).json('Error in posting review');
+        res.status(500).json('Error in posting note');
     }
+
+
 });
-
-fs.appendFile(".db/db.json", JSON.stringify(req.body), function (err) {
-    if (err) throw err;
-    console.log("Saved!");
-})
-
 app.listen(PORT, () =>
     console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
