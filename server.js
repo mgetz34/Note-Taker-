@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const uuid = require('./helpers/uuid');
 const data = require('./db/db.json');
+// const util = require('util');
 const path = require('path');
 const PORT = 3001;
 const app = express();
@@ -21,11 +22,13 @@ app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 
+
 //http://localhost:3001/api/notes
 //accesses ds.db.json
 app.get("/api/notes", (req, res) => {
     res.json(data);
 })
+
 
 app.post("/api/notes", (req, res) => {
     console.info(`${req.method} request received to add a note`);
@@ -42,15 +45,16 @@ app.post("/api/notes", (req, res) => {
             body: newNote,
         };
 
-        fs.appendFile("./db/db.json", JSON.stringify(newNote), function (err) {
+        res.json(newNote);
+        const notesArr = [...data, newNote]
+        // Convert the data to a string so we can save it
+        const noteString = JSON.stringify(newNote);
+
+        fs.appendFile("./db/db.json", noteString, function (err) {
             if (err) throw err;
             console.log("Saved!");
             notesArr.push(newNote);
         });
-
-        res.json(newNote);
-        const notesArr = [...data, newNote]
-
         console.log(response);
         res.status(201).json(response);
     } else {
