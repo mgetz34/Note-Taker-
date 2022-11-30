@@ -1,8 +1,7 @@
 const express = require('express');
-const fs = require('fs');
+const utils = require("./helpers/fsUtils")
 const uuid = require('./helpers/uuid');
 const data = require('./db/db.json');
-// const util = require('util');
 const path = require('path');
 const PORT = 3001;
 const app = express();
@@ -25,7 +24,7 @@ app.get("/notes", (req, res) => {
 //http://localhost:3001/api/notes
 //accesses ds.db.json
 app.get("/api/notes", (req, res) => {
-    res.json(data);
+    utils.readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
 })
 
 app.post("/api/notes", (req, res) => {
@@ -38,22 +37,14 @@ app.post("/api/notes", (req, res) => {
             id: uuid(),
         };
 
+        utils.readAndAppend(newNote, "./db/db.json");
+
         const response = {
             status: 'success',
             body: newNote,
         };
 
         res.json(newNote);
-
-        const notesArr = [...data, newNote]
-        // Convert the data to a string so we can save it
-        const noteString = JSON.stringify(newNote);
-
-        fs.appendFile("./db/db.json", noteString, function (err) {
-            if (err) throw err;
-            console.log("Saved!");
-            notesArr.push(newNote);
-        });
         console.log(response);
         res.status(201).json(response);
     } else {
