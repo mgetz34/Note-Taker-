@@ -1,35 +1,28 @@
 const express = require('express');
-const utils = require("./helpers/fsUtils")
-const uuid = require('./helpers/uuid');
-const data = require('./db/db.json');
 const path = require('path');
+const { clog } = require('./middleware/clog');
+const api = require('./routes/index');
+
 const PORT = 3001;
+
 const app = express();
+
+app.use(clog);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api', api);
 
 app.use(express.static('public'));
 
 //sets index.html to http://localhost:3001 
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 //sets notes.html to http://localhost:3001/notes
-app.get("/notes", (req, res) => {
+app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
-});
-
-//http://localhost:3001/api/notes
-//accesses ds.db.json
-app.get("/api/notes", (req, res) => {
-    utils.readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
-})
-
-app.post("/api/notes", (req, res) => {
-    console.info(`${req.method} request received to add a note`);
-  
 });
 
 app.listen(PORT, () =>
