@@ -29,27 +29,7 @@ app.get("/api/notes", (req, res) => {
 
 app.post("/api/notes", (req, res) => {
     console.info(`${req.method} request received to add a note`);
-    const { title, text } = req.body;
-    if (title && text) {
-        const newNote = {
-            title,
-            text,
-            id: uuid(),
-        };
-
-        utils.readAndAppend(newNote, "./db/db.json");
-
-        const response = {
-            status: 'success',
-            body: newNote,
-        };
-
-        res.json(newNote);
-        console.log(response);
-        res.status(201).json(response);
-    } else {
-        res.status(500).json('Error in posting note');
-    };
+  
 });
 
 app.listen(PORT, () =>
