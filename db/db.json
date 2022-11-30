@@ -2,30 +2,5 @@
     {
         "title": "Test Title",
         "text": "Test text"
-    },
-    {
-        "title": "Test",
-        "text": "Note",
-        "id": "1eba"
-    },
-    {
-        "title": "Test2",
-        "text": "Note",
-        "id": "50ca"
-    },
-    {
-        "title": "Test3",
-        "text": "Note",
-        "id": "db5a"
-    },
-    {
-        "title": "Note4",
-        "text": "Note",
-        "id": "34e1"
-    },
-    {
-        "title": "Note 5",
-        "text": "note",
-        "id": "cba3"
     }
 ]
