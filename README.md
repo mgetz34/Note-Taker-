@@ -51,4 +51,4 @@ My email address is: mgetz340
 
 ## Heroku Link to app
 
-target=blank_https://lit-wave-50804.herokuapp.com/
+<a target="\_blank" href="https://lit-wave-50804.herokuapp.com/" </a>
