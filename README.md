@@ -51,4 +51,4 @@ My email address is: mgetz340
 
 ## Heroku Link to app
 
-https://lit-wave-50804.herokuapp.com/
+https://note-taker-34.herokuapp.com/
